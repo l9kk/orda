@@ -24,6 +24,7 @@ class ListingResponse(ListingBase):
     item_type: Optional[str] = None
     origin: Optional[str] = None
     destination: Optional[str] = None
+    contact_info: Optional[str] = None
 
     class Config:
         from_attributes = True
