@@ -59,3 +59,4 @@ This project implements several design patterns for academic review:
 ## SOLID Principles
 
 The architecture is designed to strictly adhere to SOLID principles.
+
