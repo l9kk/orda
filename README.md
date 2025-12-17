@@ -6,9 +6,18 @@ Smart Orda is a simulated marketplace application designed for the SDU (Suleyman
 
 - `backend/`: FastAPI application (Python)
 - `frontend/`: Next.js application (TypeScript)
+
 ## Getting Started
 
-### Backend
+### Using Docker (Recommended)
+
+1. Start the entire stack:
+   ```bash
+   docker-compose up --build
+   ```
+2. The API will be available at `http://localhost:8000` and the frontend at `http://localhost:3000`.
+
+### Manual Setup
 
 1. Navigate to the `backend` directory:
    ```bash
@@ -41,6 +50,7 @@ Smart Orda is a simulated marketplace application designed for the SDU (Suleyman
 ## Design Patterns
 
 This project implements several design patterns for academic review:
+
 - **Factory Method**: For Listing creation.
 - **Strategy Pattern**: For sorting algorithms.
 - **Observer Pattern**: For real-time alerts.
