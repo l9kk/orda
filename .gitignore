@@ -88,3 +88,9 @@ pids
 # Temporary folders
 tmp/
 temp/
+
+openspec/
+.gemini/
+.github/
+.kilocode/
+AGENTS.md
