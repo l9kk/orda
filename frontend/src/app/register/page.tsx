@@ -66,6 +66,8 @@ export default function RegisterPage() {
                             onChange={handleChange}
                             className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-gray-900 bg-white"
                             required
+                            minLength={6}
+                            maxLength={16}
                         />
                     </div>
                     <button

@@ -9,7 +9,7 @@ from app.core.auth import (
     ACCESS_TOKEN_EXPIRE_MINUTES,
 )
 from app.features.users.models import User
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field
 from datetime import timedelta
 
 router = APIRouter(prefix="/auth", tags=["auth"])
@@ -17,7 +17,7 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 
 class UserCreate(BaseModel):
     email: EmailStr
-    password: str
+    password: str = Field(..., min_length=6, max_length=16)
 
 
 class Token(BaseModel):
