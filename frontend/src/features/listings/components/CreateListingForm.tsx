@@ -11,7 +11,6 @@ import { useNotifications } from '@/features/notifications/context/NotificationC
 export default function CreateListingForm() {
   const router = useRouter();
   const { isAuthenticated, isLoading: authLoading } = useAuth();
-  const { addNotification } = useNotifications();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [type, setType] = useState('textbook');
@@ -53,7 +52,6 @@ export default function CreateListingForm() {
       };
 
       if (type === 'textbook') {
-        // No extra fields for textbooks
       } else if (type === 'dorm') {
         payload.item_type = formData.item_type;
       } else if (type === 'ride') {
@@ -62,10 +60,6 @@ export default function CreateListingForm() {
       }
 
       await listingService.create(payload);
-      
-      // #OBSERVER: Mocking the notification for the demo
-      // In a real app, this would come from a WebSocket or the backend
-      addNotification(`Your listing "${formData.title}" has been created!`);
       
       router.push('/');
     } catch (err) {
@@ -138,7 +132,7 @@ export default function CreateListingForm() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700">Price ($)</label>
+                <label className="block text-sm font-medium text-gray-700">Price (KZT)</label>
                 <input
                   type="number"
                   name="price"

@@ -2,11 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import { notificationService } from '@/services/notifications';
-import { Subscription, Notification } from '@/types';
+import { Subscription } from '@/types';
 import { Card, CardContent, CardHeader } from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
 import { useAuth } from '@/features/auth/context/AuthContext';
 import { useRouter } from 'next/navigation';
+import { useNotifications } from '@/features/notifications/context/NotificationContext';
 
 export default function AlertManager() {
   /**
@@ -15,9 +16,9 @@ export default function AlertManager() {
    * Users "attach" themselves to keywords to receive notifications.
    */
   const { isAuthenticated, isLoading: authLoading } = useAuth();
+  const { notifications, markAsRead } = useNotifications();
   const router = useRouter();
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
-  const [notifications, setNotifications] = useState<Notification[]>([]);
   const [keyword, setKeyword] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -28,22 +29,18 @@ export default function AlertManager() {
       return;
     }
     if (isAuthenticated) {
-      fetchData();
+      fetchSubscriptions();
     }
   }, [isAuthenticated, authLoading, router]);
 
-  const fetchData = async () => {
+  const fetchSubscriptions = async () => {
     try {
       setLoading(true);
-      const [subData, notifData] = await Promise.all([
-        notificationService.getSubscriptions(),
-        notificationService.getNotifications(),
-      ]);
+      const subData = await notificationService.getSubscriptions();
       setSubscriptions(subData);
-      setNotifications(notifData);
       setError(null);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load data');
+      setError(err instanceof Error ? err.message : 'Failed to load subscriptions');
     } finally {
       setLoading(false);
     }
@@ -56,7 +53,7 @@ export default function AlertManager() {
     try {
       await notificationService.addSubscription(keyword.trim());
       setKeyword('');
-      fetchData();
+      fetchSubscriptions();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to add subscription');
     }
@@ -65,19 +62,14 @@ export default function AlertManager() {
   const handleDelete = async (id: number) => {
     try {
       await notificationService.deleteSubscription(id);
-      fetchData();
+      fetchSubscriptions();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to delete subscription');
     }
   };
 
   const handleMarkAsRead = async (id: number) => {
-    try {
-      await notificationService.markAsRead(id);
-      fetchData();
-    } catch (err) {
-      console.error('Failed to mark as read:', err);
-    }
+    await markAsRead(id);
   };
 
   return (

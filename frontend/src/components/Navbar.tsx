@@ -7,7 +7,7 @@ import { useState } from 'react';
 
 export default function Navbar() {
   const { isAuthenticated, logout, user } = useAuth();
-  const { notifications, clearNotifications } = useNotifications();
+  const { notifications, unreadCount, clearNotifications, markAsRead } = useNotifications();
   const [showNotifications, setShowNotifications] = useState(false);
 
   return (
@@ -44,9 +44,9 @@ export default function Navbar() {
                     className="text-gray-500 hover:text-gray-700 text-sm font-medium relative p-2"
                   >
                     🔔
-                    {notifications.length > 0 && (
+                    {unreadCount > 0 && (
                       <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
-                        {notifications.length}
+                        {unreadCount}
                       </span>
                     )}
                   </button>
@@ -59,7 +59,7 @@ export default function Navbar() {
                           onClick={clearNotifications}
                           className="text-xs text-blue-600 hover:underline"
                         >
-                          Clear all
+                          Mark all as read
                         </button>
                       </div>
                       <div className="max-h-64 overflow-y-auto">
@@ -69,14 +69,29 @@ export default function Navbar() {
                           </div>
                         ) : (
                           notifications.map((n) => (
-                            <div key={n.id} className="px-4 py-3 hover:bg-gray-50 border-b border-gray-50 last:border-0">
-                              <p className="text-sm text-gray-800">{n.message}</p>
+                            <div 
+                              key={n.id} 
+                              className={`px-4 py-3 hover:bg-gray-50 border-b border-gray-50 last:border-0 cursor-pointer ${!n.is_read ? 'bg-blue-50' : ''}`}
+                              onClick={() => markAsRead(n.id)}
+                            >
+                              <p className={`text-sm ${!n.is_read ? 'text-blue-900 font-medium' : 'text-gray-800'}`}>
+                                {n.message}
+                              </p>
                               <p className="text-xs text-gray-400 mt-1">
-                                {new Date(n.timestamp).toLocaleTimeString()}
+                                {new Date(n.created_at).toLocaleString()}
                               </p>
                             </div>
                           ))
                         )}
+                      </div>
+                      <div className="px-4 py-2 border-t border-gray-100 text-center">
+                        <Link 
+                          href="/alerts" 
+                          className="text-xs text-blue-600 hover:underline"
+                          onClick={() => setShowNotifications(false)}
+                        >
+                          View all alerts
+                        </Link>
                       </div>
                     </div>
                   )}

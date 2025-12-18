@@ -32,7 +32,7 @@ export default function ListingCard({ listing }: ListingCardProps) {
           {listing.description}
         </p>
         <p className="text-2xl font-bold text-gray-900 mb-4">
-          ${listing.price.toLocaleString()}
+          {listing.price.toLocaleString()} KZT
         </p>
         
         {/* #PROXY: Displays contact info which is protected by the backend proxy */}

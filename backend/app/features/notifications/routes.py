@@ -2,7 +2,8 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from typing import List
 from app.core.database import get_db
-from . import schemas, models
+from . import schemas
+from .service import NotificationService
 from app.core.auth import get_current_user
 from app.features.users.models import User
 
@@ -15,39 +16,21 @@ def create_subscription(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    # Use current_user.id and email for the subscription
-    db_subscription = models.Subscription(
-        user_id=current_user.id,
-        keyword=subscription.keyword,
-        student_name=current_user.email,
-    )
-    db.add(db_subscription)
-    db.commit()
-    db.refresh(db_subscription)
-    return db_subscription
+    return NotificationService.create_subscription(db, subscription, current_user)
 
 
 @router.get("/", response_model=List[schemas.SubscriptionResponse])
 def get_subscriptions(
     db: Session = Depends(get_db), current_user: User = Depends(get_current_user)
 ):
-    return (
-        db.query(models.Subscription)
-        .filter(models.Subscription.user_id == current_user.id)
-        .all()
-    )
+    return NotificationService.get_subscriptions(db, current_user.id)
 
 
 @router.get("/notifications", response_model=List[schemas.NotificationResponse])
 def get_notifications(
     db: Session = Depends(get_db), current_user: User = Depends(get_current_user)
 ):
-    return (
-        db.query(models.Notification)
-        .filter(models.Notification.user_id == current_user.id)
-        .order_by(models.Notification.created_at.desc())
-        .all()
-    )
+    return NotificationService.get_notifications(db, current_user.id)
 
 
 @router.post("/notifications/{notification_id}/read")
@@ -56,15 +39,12 @@ def mark_notification_as_read(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    notification = (
-        db.query(models.Notification)
-        .filter(
-            models.Notification.id == notification_id,
-            models.Notification.user_id == current_user.id,
-        )
-        .first()
-    )
-    if notification:
-        notification.is_read = True
-        db.commit()
-    return {"status": "success"}
+    return NotificationService.mark_as_read(db, current_user.id, notification_id)
+
+
+@router.post("/notifications/read-all")
+def mark_all_notifications_as_read(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    return NotificationService.mark_all_as_read(db, current_user.id)
