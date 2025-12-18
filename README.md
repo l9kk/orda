@@ -53,36 +53,36 @@ This project implements several design patterns to ensure high maintainability a
 
 ### Creational Patterns
 
-- **Factory Method (#FACTORY)**: Used in `ListingFactory` to create different listing types (Textbooks, Dorm Items, Ride-Sharing).
+- **Factory Method**: Used in `ListingFactory` to create different listing types (Textbooks, Dorm Items, Ride-Sharing).
   - _Analogy_: Like a **Pizza Shop**. You order a "Pepperoni" (category), and the kitchen (Factory) makes it for you. You don't need to know how to toss the dough yourself.
-- **Singleton (#SINGLETON)**: Used for the Database connection and Auth state.
+- **Singleton**: Used for the Database connection and Auth state.
   - _Analogy_: Like a **Single Office Printer**. Everyone in the office sends documents to the same machine to avoid having 50 different printers taking up space and causing chaos.
 
 ### Structural Patterns
 
-- **Proxy Pattern (#PROXY)**: Acts as a gatekeeper for sensitive user contact information.
+- **Proxy Pattern**: Acts as a gatekeeper for sensitive user contact information.
   - _Analogy_: Like a **Security Guard** at a VIP club. He checks your ID (Login) before letting you see the celebrities (Sensitive Data).
-- **Facade Pattern (#FACADE)**: Used in the frontend `apiFetch` to simplify complex network requests.
+- **Facade Pattern**: Used in the frontend `apiFetch` to simplify complex network requests.
   - _Analogy_: Like a **TV Remote**. You just press "Power", and it handles all the complex electronics inside. You don't need to be an engineer to watch a show.
-- **Decorator Pattern (#DECORATOR)**: Used in FastAPI routes to add web logic to plain functions.
+- **Decorator Pattern**: Used in FastAPI routes to add web logic to plain functions.
   - _Analogy_: Like **Adding Toppings to a Burger**. The burger is the same, but you "decorate" it with cheese or bacon to add extra features.
 
 ### Behavioral Patterns
 
-- **Strategy Pattern (#STRATEGY)**: Allows switching between sorting algorithms (Price, Date, Location) at runtime.
+- **Strategy Pattern**: Allows switching between sorting algorithms (Price, Date, Location) at runtime.
   - _Analogy_: Like a **GPS App**. You can choose "Fastest Route" or "No Tolls". The app stays the same, but the math (Strategy) changes based on your choice.
-- **Observer Pattern (#OBSERVER)**: Manages keyword alerts for students.
+- **Observer Pattern**: Manages keyword alerts for students.
   - _Analogy_: Like **YouTube Notifications**. You "Subscribe" to a channel. When a new video is posted, the system sends an alert to all fans automatically.
-- **Mediator Pattern (#MEDIATOR)**: Used in `AuthContext` to coordinate state between many UI components.
+- **Mediator Pattern**: Used in `AuthContext` to coordinate state between many UI components.
   - _Analogy_: Like an **Air Traffic Controller**. Pilots (Components) don't talk to each other directly; they talk to the tower (Mediator) to avoid crashing.
-- **Template Method (#TEMPLATE_METHOD)**: Used in the base `Listing` model.
+- **Template Pattern**: Used in the base `Listing` model.
   - _Analogy_: Like a **Cake Recipe**. The recipe says "Mix, Bake, Decorate". You follow the steps but choose the specific flavor (Chocolate vs. Vanilla).
-- **Iterator Pattern (#ITERATOR)**: Used in database session management (`yield db`).
+- **Iterator Pattern**: Used in database session management (`yield db`).
   - _Analogy_: Like a **Deck of Cards**. You deal them one by one. You don't need to hold all 52 cards at once to see the next one.
 
 ## Architectural things
 
-We also use high-level architectural patterns to keep the code clean:
+We also use high-level architectural stuff to keep the code clean:
 
 - **Dependency Injection (DI)**:
   - _Why_: It stops components from being "stuck" together.
