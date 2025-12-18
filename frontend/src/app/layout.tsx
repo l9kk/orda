@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
+import { FloatingHeader } from "@/components/ui/floating-header";
 import { AuthProvider } from "@/features/auth/context/AuthContext";
 import { NotificationProvider } from "@/features/notifications/context/NotificationContext";
 
@@ -28,11 +28,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50 min-h-screen`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-muted/50 min-h-screen`}
       >
         <AuthProvider>
           <NotificationProvider>
-            <Navbar />
+            <FloatingHeader />
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
               {children}
             </main>

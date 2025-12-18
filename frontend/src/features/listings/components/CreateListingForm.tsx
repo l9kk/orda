@@ -6,7 +6,6 @@ import { listingService } from '@/services/listings';
 import Button from '@/components/ui/Button';
 import { Card, CardContent, CardHeader } from '@/components/ui/Card';
 import { useAuth } from '@/features/auth/context/AuthContext';
-import { useNotifications } from '@/features/notifications/context/NotificationContext';
 
 export default function CreateListingForm() {
   const router = useRouter();
@@ -72,7 +71,7 @@ export default function CreateListingForm() {
   if (authLoading) {
     return (
       <div className="flex justify-center py-12">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
       </div>
     );
   }
@@ -80,7 +79,7 @@ export default function CreateListingForm() {
   return (
     <Card>
       <CardHeader>
-        <h2 className="text-2xl font-bold text-gray-900">Create New Listing</h2>
+        <h2 className="text-2xl font-bold text-foreground">Create New Listing</h2>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -92,47 +91,47 @@ export default function CreateListingForm() {
 
           <div className="grid grid-cols-1 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700">Listing Type</label>
+              <label className="block text-sm font-medium text-muted-foreground">Listing Type</label>
               {/* #FACTORY: Dynamic form fields based on the selected listing category */}
               <select
                 name="type"
                 value={type}
                 onChange={(e) => setType(e.target.value)}
-                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md bg-white text-gray-900"
+                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border border-input focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent sm:text-sm rounded-md bg-background text-foreground"
               >
-                <option value="textbook" className="text-gray-900">Book</option>
-                <option value="dorm" className="text-gray-900">Dorm Item</option>
-                <option value="ride" className="text-gray-900">Ride Sharing</option>
+                <option value="textbook" className="text-foreground">Book</option>
+                <option value="dorm" className="text-foreground">Dorm Item</option>
+                <option value="ride" className="text-foreground">Ride Sharing</option>
               </select>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">Title</label>
+              <label className="block text-sm font-medium text-muted-foreground">Title</label>
               <input
                 type="text"
                 name="title"
                 required
                 value={formData.title}
                 onChange={handleChange}
-                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 bg-white text-gray-900"
+                className="mt-1 block w-full border border-input rounded-md shadow-sm focus:ring-2 focus:ring-ring focus:border-transparent sm:text-sm p-2 bg-background text-foreground"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">Description</label>
+              <label className="block text-sm font-medium text-muted-foreground">Description</label>
               <textarea
                 name="description"
                 rows={3}
                 required
                 value={formData.description}
                 onChange={handleChange}
-                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 bg-white text-gray-900"
+                className="mt-1 block w-full border border-input rounded-md shadow-sm focus:ring-2 focus:ring-ring focus:border-transparent sm:text-sm p-2 bg-background text-foreground"
               />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700">Price (KZT)</label>
+                <label className="block text-sm font-medium text-muted-foreground">Price (KZT)</label>
                 <input
                   type="number"
                   name="price"
@@ -141,19 +140,19 @@ export default function CreateListingForm() {
                   step="0.01"
                   value={formData.price}
                   onChange={handleChange}
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 bg-white text-gray-900"
+                  className="mt-1 block w-full border border-input rounded-md shadow-sm focus:ring-2 focus:ring-ring focus:border-transparent sm:text-sm p-2 bg-background text-foreground"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700">Location</label>
+                <label className="block text-sm font-medium text-muted-foreground">Location</label>
                 <input
                   type="text"
                   name="location"
                   placeholder="e.g. Dorm 4, Kaskelen"
                   value={formData.location}
                   onChange={handleChange}
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 bg-white text-gray-900"
+                  className="mt-1 block w-full border border-input rounded-md shadow-sm focus:ring-2 focus:ring-ring focus:border-transparent sm:text-sm p-2 bg-background text-foreground"
                 />
               </div>
             </div>
@@ -162,16 +161,16 @@ export default function CreateListingForm() {
 
             {type === 'dorm' && (
               <div>
-                <label className="block text-sm font-medium text-gray-700">Item Type</label>
+                <label className="block text-sm font-medium text-muted-foreground">Item Type</label>
                 <select
                   name="item_type"
                   value={formData.item_type}
                   onChange={handleChange}
-                  className="mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md bg-white text-gray-900"
+                  className="mt-1 block w-full pl-3 pr-10 py-2 text-base border border-input focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent sm:text-sm rounded-md bg-background text-foreground"
                 >
-                  <option value="Electronics" className="text-gray-900">Electronics</option>
-                  <option value="Furniture" className="text-gray-900">Furniture</option>
-                  <option value="Other" className="text-gray-900">Other</option>
+                  <option value="Electronics" className="text-foreground">Electronics</option>
+                  <option value="Furniture" className="text-foreground">Furniture</option>
+                  <option value="Other" className="text-foreground">Other</option>
                 </select>
               </div>
             )}
@@ -179,25 +178,25 @@ export default function CreateListingForm() {
             {type === 'ride' && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Origin</label>
+                  <label className="block text-sm font-medium text-muted-foreground">Origin</label>
                   <input
                     type="text"
                     name="origin"
                     placeholder="e.g. SDU"
                     value={formData.origin}
                     onChange={handleChange}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 bg-white text-gray-900"
+                    className="mt-1 block w-full border border-input rounded-md shadow-sm focus:ring-2 focus:ring-ring focus:border-transparent sm:text-sm p-2 bg-background text-foreground"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Destination</label>
+                  <label className="block text-sm font-medium text-muted-foreground">Destination</label>
                   <input
                     type="text"
                     name="destination"
                     placeholder="e.g. Almaty"
                     value={formData.destination}
                     onChange={handleChange}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 bg-white text-gray-900"
+                    className="mt-1 block w-full border border-input rounded-md shadow-sm focus:ring-2 focus:ring-ring focus:border-transparent sm:text-sm p-2 bg-background text-foreground"
                   />
                 </div>
               </div>
@@ -213,8 +212,8 @@ export default function CreateListingForm() {
             >
               Cancel
             </Button>
-            <Button type="submit" disabled={loading}>
-              {loading ? 'Creating...' : 'Create Listing'}
+            <Button type="submit" isLoading={loading}>
+              Create Listing
             </Button>
           </div>
         </form>

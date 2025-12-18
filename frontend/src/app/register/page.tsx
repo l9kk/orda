@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { userService } from '@/services/users';
 import Link from 'next/link';
+import Button from '@/components/ui/Button';
 
 export default function RegisterPage() {
     const [formData, setFormData] = useState({
@@ -36,52 +37,52 @@ export default function RegisterPage() {
 
     return (
         <div className="max-w-md mx-auto mt-10">
-            <div className="bg-white p-8 rounded-lg shadow-md">
-                <h1 className="text-2xl font-bold mb-6 text-center">Create an Account</h1>
+            <div className="bg-card p-8 rounded-lg shadow-md border border-border">
+                <h1 className="text-2xl font-bold mb-6 text-center text-foreground">Create an Account</h1>
                 
                 {error && (
-                    <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                    <div className="bg-destructive/10 border border-destructive text-destructive px-4 py-3 rounded mb-4 text-sm">
                         {error}
                     </div>
                 )}
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
-                        <label className="block text-sm font-medium text-gray-700">Email</label>
+                        <label className="block text-sm font-medium text-muted-foreground">Email</label>
                         <input
                             type="email"
                             name="email"
                             value={formData.email}
                             onChange={handleChange}
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-gray-900 bg-white"
+                            className="mt-1 block w-full border border-input rounded-md shadow-sm p-2 text-foreground bg-background focus:ring-2 focus:ring-ring focus:border-transparent"
                             required
                         />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-gray-700">Password</label>
+                        <label className="block text-sm font-medium text-muted-foreground">Password</label>
                         <input
                             type="password"
                             name="password"
                             value={formData.password}
                             onChange={handleChange}
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-gray-900 bg-white"
+                            className="mt-1 block w-full border border-input rounded-md shadow-sm p-2 text-foreground bg-background focus:ring-2 focus:ring-ring focus:border-transparent"
                             required
                             minLength={6}
                             maxLength={16}
                         />
                     </div>
-                    <button
+                    <Button
                         type="submit"
-                        disabled={isLoading}
-                        className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 disabled:bg-blue-300"
+                        isLoading={isLoading}
+                        className="w-full"
                     >
-                        {isLoading ? 'Creating account...' : 'Register'}
-                    </button>
+                        Register
+                    </Button>
                 </form>
 
-                <p className="mt-4 text-center text-sm text-gray-600">
+                <p className="mt-4 text-center text-sm text-muted-foreground">
                     Already have an account?{' '}
-                    <Link href="/login" className="text-blue-600 hover:underline">
+                    <Link href="/login" className="text-primary hover:underline font-medium">
                         Login here
                     </Link>
                 </p>

@@ -26,6 +26,15 @@ def get_subscriptions(
     return NotificationService.get_subscriptions(db, current_user.id)
 
 
+@router.delete("/{subscription_id}")
+def delete_subscription(
+    subscription_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    return NotificationService.delete_subscription(db, current_user.id, subscription_id)
+
+
 @router.get("/notifications", response_model=List[schemas.NotificationResponse])
 def get_notifications(
     db: Session = Depends(get_db), current_user: User = Depends(get_current_user)

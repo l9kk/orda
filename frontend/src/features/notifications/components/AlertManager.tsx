@@ -75,13 +75,13 @@ export default function AlertManager() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Alerts & Notifications</h1>
-        <p className="text-gray-500">Get notified when items matching your keywords are posted.</p>
+        <h1 className="text-3xl font-bold text-foreground">Alerts & Notifications</h1>
+        <p className="text-muted-foreground">Get notified when items matching your keywords are posted.</p>
       </div>
 
       <Card>
         <CardHeader>
-          <h2 className="text-xl font-semibold text-gray-900">Add New Alert</h2>
+          <h2 className="text-xl font-semibold text-foreground">Add New Alert</h2>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleAdd} className="flex gap-4">
@@ -90,7 +90,7 @@ export default function AlertManager() {
               placeholder="e.g. iPhone, Calculus, Dorm"
               value={keyword}
               onChange={(e) => setKeyword(e.target.value)}
-              className="flex-grow border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 text-gray-900 bg-white"
+              className="flex-grow border border-input rounded-md shadow-sm focus:ring-2 focus:ring-ring focus:border-transparent sm:text-sm p-2 text-foreground bg-background"
               required
             />
             <Button type="submit">Add Keyword</Button>
@@ -100,22 +100,22 @@ export default function AlertManager() {
 
       <Card>
         <CardHeader>
-          <h2 className="text-xl font-semibold text-gray-900">Recent Notifications</h2>
+          <h2 className="text-xl font-semibold text-foreground">Recent Notifications</h2>
         </CardHeader>
         <CardContent>
           {loading ? (
             <div className="flex justify-center py-4">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
             </div>
           ) : notifications.length === 0 ? (
-            <p className="text-gray-500 text-center py-4">No notifications yet.</p>
+            <p className="text-muted-foreground text-center py-4">No notifications yet.</p>
           ) : (
-            <ul className="divide-y divide-gray-200">
+            <ul className="divide-y divide-border">
               {notifications.map((notif) => (
                 <li key={notif.id} className={`py-4 flex justify-between items-center ${notif.is_read ? 'opacity-50' : ''}`}>
                   <div>
-                    <p className="text-sm text-gray-900">{notif.message}</p>
-                    <p className="text-xs text-gray-400">{new Date(notif.created_at).toLocaleString()}</p>
+                    <p className="text-sm text-foreground">{notif.message}</p>
+                    <p className="text-xs text-muted-foreground">{new Date(notif.created_at).toLocaleString()}</p>
                   </div>
                   {!notif.is_read && (
                     <Button
@@ -135,22 +135,22 @@ export default function AlertManager() {
 
       <Card>
         <CardHeader>
-          <h2 className="text-xl font-semibold text-gray-900">Active Subscriptions</h2>
+          <h2 className="text-xl font-semibold text-foreground">Active Subscriptions</h2>
         </CardHeader>
         <CardContent>
           {loading ? (
             <div className="flex justify-center py-4">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
             </div>
           ) : error ? (
             <p className="text-red-600 text-sm">{error}</p>
           ) : subscriptions.length === 0 ? (
-            <p className="text-gray-500 text-center py-4">No active alerts. Add a keyword above!</p>
+            <p className="text-muted-foreground text-center py-4">No active alerts. Add a keyword above!</p>
           ) : (
-            <ul className="divide-y divide-gray-200">
+            <ul className="divide-y divide-border">
               {subscriptions.map((sub) => (
                 <li key={sub.id} className="py-4 flex justify-between items-center">
-                  <span className="text-lg font-medium text-gray-900">&quot;{sub.keyword}&quot;</span>
+                  <span className="text-lg font-medium text-foreground">&quot;{sub.keyword}&quot;</span>
                   <Button
                     variant="danger"
                     size="sm"
@@ -165,17 +165,15 @@ export default function AlertManager() {
         </CardContent>
       </Card>
 
-      <Card className="bg-blue-50 border-blue-200">
+      <Card className="bg-accent/10 border-primary/20">
         <CardHeader>
-          <h2 className="text-xl font-semibold text-blue-900">How it works (Observer Pattern)</h2>
+          <h2 className="text-xl font-semibold text-primary">How it works (Observer Pattern)</h2>
         </CardHeader>
         <CardContent>
-          <p className="text-blue-800 text-sm">
+          <p className="text-primary text-sm">
             When you add a keyword, you are registered as an <strong>Observer</strong> in the backend. 
             Whenever a new listing is created, the <strong>NotificationService</strong> (Subject) 
             checks all active subscriptions. If a match is found, it &quot;notifies&quot; the student.
-            <br /><br />
-            Check the backend terminal logs to see the Observer pattern in action when you create a listing that matches your keywords!
           </p>
         </CardContent>
       </Card>

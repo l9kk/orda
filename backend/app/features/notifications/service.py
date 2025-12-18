@@ -55,3 +55,18 @@ class NotificationService:
         ).update({"is_read": True})
         db.commit()
         return {"status": "success"}
+
+    @staticmethod
+    def delete_subscription(db: Session, user_id: int, subscription_id: int):
+        subscription = (
+            db.query(models.Subscription)
+            .filter(
+                models.Subscription.id == subscription_id,
+                models.Subscription.user_id == user_id,
+            )
+            .first()
+        )
+        if subscription:
+            db.delete(subscription)
+            db.commit()
+        return {"status": "success"}

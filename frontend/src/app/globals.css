@@ -2,20 +2,85 @@
 
 @layer base {
   :root {
-    --background: #ffffff;
-    --foreground: #171717;
+    --background: 0 0% 100%;
+    --foreground: 240 43% 15%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 43% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 43% 15%;
+    --primary: 240 43% 23%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 100%;
+    --secondary-foreground: 240 43% 23%;
+    --muted: 240 10% 96%;
+    --muted-foreground: 240 10% 40%;
+    --accent: 26 86% 68%;
+    --accent-foreground: 240 43% 15%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 240 10% 90%;
+    --input: 240 10% 90%;
+    --ring: 240 43% 23%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 240 43% 10%;
+    --foreground: 0 0% 100%;
+    --card: 240 43% 10%;
+    --card-foreground: 0 0% 100%;
+    --popover: 240 43% 10%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 240 43% 30%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 43% 20%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 240 43% 20%;
+    --muted-foreground: 240 10% 70%;
+    --accent: 26 86% 68%;
+    --accent-foreground: 240 43% 10%;
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 240 43% 20%;
+    --input: 240 43% 20%;
+    --ring: 240 43% 30%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
   }
 
   body {
-    background: var(--background);
-    color: var(--foreground);
+    @apply bg-background text-foreground;
     font-family: Arial, Helvetica, sans-serif;
   }
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
