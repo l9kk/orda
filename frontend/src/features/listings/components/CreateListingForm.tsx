@@ -12,20 +12,20 @@ export default function CreateListingForm() {
   const { isAuthenticated, isLoading: authLoading } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [type, setType] = useState('book');
+  const [type, setType] = useState('textbook');
   const [formData, setFormData] = useState({
     title: '',
     description: '',
     price: '',
+    location: '',
     // Book fields
-    author: '',
+    course_code: '',
     isbn: '',
     // Dorm item fields
-    condition: 'Used',
-    location: '',
+    item_type: 'Electronics',
     // Ride sharing fields
+    origin: '',
     destination: '',
-    departure_time: '',
   });
 
   useEffect(() => {
@@ -49,18 +49,18 @@ export default function CreateListingForm() {
         title: formData.title,
         description: formData.description,
         price: parseFloat(formData.price),
-        listing_type: type,
+        location: formData.location,
+        category: type,
       };
 
-      if (type === 'book') {
-        payload.author = formData.author;
+      if (type === 'textbook') {
+        payload.course_code = formData.course_code;
         payload.isbn = formData.isbn;
-      } else if (type === 'dorm_item') {
-        payload.condition = formData.condition;
-        payload.location = formData.location;
-      } else if (type === 'ride_sharing') {
+      } else if (type === 'dorm') {
+        payload.item_type = formData.item_type;
+      } else if (type === 'ride') {
+        payload.origin = formData.origin;
         payload.destination = formData.destination;
-        payload.departure_time = formData.departure_time;
       }
 
       await listingService.create(payload);
@@ -99,9 +99,9 @@ export default function CreateListingForm() {
                 onChange={(e) => setType(e.target.value)}
                 className="mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md bg-white text-gray-900"
               >
-                <option value="book" className="text-gray-900">Book</option>
-                <option value="dorm_item" className="text-gray-900">Dorm Item</option>
-                <option value="ride_sharing" className="text-gray-900">Ride Sharing</option>
+                <option value="textbook" className="text-gray-900">Book</option>
+                <option value="dorm" className="text-gray-900">Dorm Item</option>
+                <option value="ride" className="text-gray-900">Ride Sharing</option>
               </select>
             </div>
 
@@ -129,30 +129,44 @@ export default function CreateListingForm() {
               />
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Price ($)</label>
-              <input
-                type="number"
-                name="price"
-                required
-                min="0"
-                step="0.01"
-                value={formData.price}
-                onChange={handleChange}
-                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 bg-white text-gray-900"
-              />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Price ($)</label>
+                <input
+                  type="number"
+                  name="price"
+                  required
+                  min="0"
+                  step="0.01"
+                  value={formData.price}
+                  onChange={handleChange}
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 bg-white text-gray-900"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Location</label>
+                <input
+                  type="text"
+                  name="location"
+                  placeholder="e.g. Dorm 4, Kaskelen"
+                  value={formData.location}
+                  onChange={handleChange}
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 bg-white text-gray-900"
+                />
+              </div>
             </div>
 
             {/* Dynamic Fields */}
-            {type === 'book' && (
-              <>
+            {type === 'textbook' && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Author</label>
+                  <label className="block text-sm font-medium text-gray-700">Course Code</label>
                   <input
                     type="text"
-                    name="author"
-                    required
-                    value={formData.author}
+                    name="course_code"
+                    placeholder="e.g. CSS 202"
+                    value={formData.course_code}
                     onChange={handleChange}
                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 bg-white text-gray-900"
                   />
@@ -162,69 +176,55 @@ export default function CreateListingForm() {
                   <input
                     type="text"
                     name="isbn"
-                    required
                     value={formData.isbn}
                     onChange={handleChange}
                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 bg-white text-gray-900"
                   />
                 </div>
-              </>
+              </div>
             )}
 
-            {type === 'dorm_item' && (
-              <>
+            {type === 'dorm' && (
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Item Type</label>
+                <select
+                  name="item_type"
+                  value={formData.item_type}
+                  onChange={handleChange}
+                  className="mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md bg-white text-gray-900"
+                >
+                  <option value="Electronics" className="text-gray-900">Electronics</option>
+                  <option value="Furniture" className="text-gray-900">Furniture</option>
+                  <option value="Other" className="text-gray-900">Other</option>
+                </select>
+              </div>
+            )}
+
+            {type === 'ride' && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Condition</label>
-                  <select
-                    name="condition"
-                    value={formData.condition}
-                    onChange={handleChange}
-                    className="mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md bg-white text-gray-900"
-                  >
-                    <option value="New" className="text-gray-900">New</option>
-                    <option value="Like New" className="text-gray-900">Like New</option>
-                    <option value="Used" className="text-gray-900">Used</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Location</label>
+                  <label className="block text-sm font-medium text-gray-700">Origin</label>
                   <input
                     type="text"
-                    name="location"
-                    required
-                    value={formData.location}
+                    name="origin"
+                    placeholder="e.g. SDU"
+                    value={formData.origin}
                     onChange={handleChange}
                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 bg-white text-gray-900"
                   />
                 </div>
-              </>
-            )}
-
-            {type === 'ride_sharing' && (
-              <>
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Destination</label>
                   <input
                     type="text"
                     name="destination"
-                    required
+                    placeholder="e.g. Almaty"
                     value={formData.destination}
                     onChange={handleChange}
                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 bg-white text-gray-900"
                   />
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Departure Time</label>
-                  <input
-                    type="datetime-local"
-                    name="departure_time"
-                    required
-                    value={formData.departure_time}
-                    onChange={handleChange}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 bg-white text-gray-900"
-                  />
-                </div>
-              </>
+              </div>
             )}
           </div>
 

@@ -20,6 +20,11 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+/**
+ * #MEDIATOR / #SINGLETON
+ * Acts as a central mediator for authentication state across the application.
+ * Ensures a single source of truth for user session data.
+ */
 export function AuthProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
     const [token, setToken] = useState<string | null>(null);

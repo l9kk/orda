@@ -29,6 +29,15 @@ class DateSortStrategy(SortStrategy):
         print("DEBUG: Strategy Pattern switched to DateMode")
         return sorted(listings, key=lambda x: x.id, reverse=True)
 
+class LocationSortStrategy(SortStrategy):
+    """
+    #STRATEGY
+    Sorts listings by location alphabetically.
+    """
+    def sort(self, listings: List[Listing]) -> List[Listing]:
+        print("DEBUG: Strategy Pattern switched to LocationMode")
+        return sorted(listings, key=lambda x: x.location or "")
+
 class SortContext:
     """
     #STRATEGY

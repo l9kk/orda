@@ -1,5 +1,9 @@
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
+/**
+ * #FACADE
+ * Provides a simplified interface to the complex fetch API.
+ */
 export async function apiFetch<T>(
     endpoint: string,
     options: RequestInit = {}

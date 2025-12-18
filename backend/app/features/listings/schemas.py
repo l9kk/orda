@@ -6,6 +6,7 @@ class ListingBase(BaseModel):
     description: Optional[str] = None
     price: float
     category: str
+    location: Optional[str] = None
 
 class ListingCreate(ListingBase):
     # Fields for BookListing
@@ -24,6 +25,7 @@ class ListingResponse(ListingBase):
     item_type: Optional[str] = None
     origin: Optional[str] = None
     destination: Optional[str] = None
+    location: Optional[str] = None
     contact_info: Optional[str] = None
 
     class Config:

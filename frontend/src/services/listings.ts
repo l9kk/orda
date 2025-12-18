@@ -5,8 +5,14 @@ export interface Listing {
     title: string;
     description: string;
     price: number;
-    listing_type: string;
-    created_at: string;
+    category: string;
+    location?: string;
+    course_code?: string;
+    isbn?: string;
+    item_type?: string;
+    origin?: string;
+    destination?: string;
+    contact_info?: string;
     owner_id: number;
 }
 

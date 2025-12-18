@@ -45,6 +45,7 @@ export default function Home() {
           >
             <option value="date" className="text-gray-900">Newest</option>
             <option value="price" className="text-gray-900">Price</option>
+            <option value="location" className="text-gray-900">Location</option>
           </select>
         </div>
       </div>

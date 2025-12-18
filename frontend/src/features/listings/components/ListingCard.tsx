@@ -18,9 +18,14 @@ export default function ListingCard({ listing }: ListingCardProps) {
             {listing.title}
           </h3>
           <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-            {listing.listing_type}
+            {listing.category}
           </span>
         </div>
+        {listing.location && (
+          <p className="text-xs text-gray-400 mt-1">
+            📍 {listing.location}
+          </p>
+        )}
       </CardHeader>
       <CardContent className="flex-grow">
         <p className="text-sm text-gray-500 line-clamp-3 mb-4">
