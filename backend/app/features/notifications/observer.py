@@ -2,6 +2,9 @@ import logging
 from abc import ABC, abstractmethod
 from typing import List
 
+from sqlalchemy.orm import Session
+from .models import Notification
+
 logger = logging.getLogger(__name__)
 
 
@@ -22,10 +25,21 @@ class StudentObserver(Observer):
     Concrete observer representing a student.
     """
 
-    def __init__(self, student_name: str):
+    def __init__(self, user_id: int, student_name: str, db: Session):
+        self.user_id = user_id
         self.student_name = student_name
+        self.db = db
 
     def update(self, item_name: str):
+        logger.debug(f"DEBUG: StudentObserver.update called for {self.student_name} with {item_name}")
+        
+        new_notification = Notification(
+            user_id=self.user_id,
+            message=f"New item matching your alert: {item_name}"
+        )
+        self.db.add(new_notification)
+        self.db.commit()
+
         logger.info(
             f"OBSERVER: Alerting Student {self.student_name} about new item: {item_name}"
         )

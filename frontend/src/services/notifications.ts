@@ -1,7 +1,7 @@
 import { apiFetch } from './api';
-import { Subscription } from '@/types';
+import { Subscription, Notification } from '@/types';
 
-export type { Subscription };
+export type { Subscription, Notification };
 
 export const notificationService = {
     getSubscriptions: () =>
@@ -16,5 +16,13 @@ export const notificationService = {
     deleteSubscription: (id: number) =>
         apiFetch<void>(`/subscriptions/${id}`, {
             method: 'DELETE',
+        }),
+
+    getNotifications: () =>
+        apiFetch<Notification[]>('/subscriptions/notifications'),
+
+    markAsRead: (id: number) =>
+        apiFetch<void>(`/subscriptions/notifications/${id}/read`, {
+            method: 'POST',
         }),
 };

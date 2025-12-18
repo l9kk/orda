@@ -36,3 +36,35 @@ def get_subscriptions(
         .filter(models.Subscription.user_id == current_user.id)
         .all()
     )
+
+
+@router.get("/notifications", response_model=List[schemas.NotificationResponse])
+def get_notifications(
+    db: Session = Depends(get_db), current_user: User = Depends(get_current_user)
+):
+    return (
+        db.query(models.Notification)
+        .filter(models.Notification.user_id == current_user.id)
+        .order_by(models.Notification.created_at.desc())
+        .all()
+    )
+
+
+@router.post("/notifications/{notification_id}/read")
+def mark_notification_as_read(
+    notification_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    notification = (
+        db.query(models.Notification)
+        .filter(
+            models.Notification.id == notification_id,
+            models.Notification.user_id == current_user.id,
+        )
+        .first()
+    )
+    if notification:
+        notification.is_read = True
+        db.commit()
+    return {"status": "success"}

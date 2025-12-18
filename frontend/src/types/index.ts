@@ -27,6 +27,14 @@ export interface Subscription {
     student_name: string;
 }
 
+export interface Notification {
+    id: number;
+    user_id: number;
+    message: string;
+    is_read: boolean;
+    created_at: string;
+}
+
 export interface AuthResponse {
     access_token: string;
     token_type: string;

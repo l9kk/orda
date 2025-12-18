@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { notificationService } from '@/services/notifications';
-import { Subscription } from '@/types';
+import { Subscription, Notification } from '@/types';
 import { Card, CardContent, CardHeader } from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
 import { useAuth } from '@/features/auth/context/AuthContext';
@@ -17,6 +17,7 @@ export default function AlertManager() {
   const { isAuthenticated, isLoading: authLoading } = useAuth();
   const router = useRouter();
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
   const [keyword, setKeyword] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -27,18 +28,22 @@ export default function AlertManager() {
       return;
     }
     if (isAuthenticated) {
-      fetchSubscriptions();
+      fetchData();
     }
   }, [isAuthenticated, authLoading, router]);
 
-  const fetchSubscriptions = async () => {
+  const fetchData = async () => {
     try {
       setLoading(true);
-      const data = await notificationService.getSubscriptions();
-      setSubscriptions(data);
+      const [subData, notifData] = await Promise.all([
+        notificationService.getSubscriptions(),
+        notificationService.getNotifications(),
+      ]);
+      setSubscriptions(subData);
+      setNotifications(notifData);
       setError(null);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load subscriptions');
+      setError(err instanceof Error ? err.message : 'Failed to load data');
     } finally {
       setLoading(false);
     }
@@ -51,7 +56,7 @@ export default function AlertManager() {
     try {
       await notificationService.addSubscription(keyword.trim());
       setKeyword('');
-      fetchSubscriptions();
+      fetchData();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to add subscription');
     }
@@ -60,9 +65,18 @@ export default function AlertManager() {
   const handleDelete = async (id: number) => {
     try {
       await notificationService.deleteSubscription(id);
-      fetchSubscriptions();
+      fetchData();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to delete subscription');
+    }
+  };
+
+  const handleMarkAsRead = async (id: number) => {
+    try {
+      await notificationService.markAsRead(id);
+      fetchData();
+    } catch (err) {
+      console.error('Failed to mark as read:', err);
     }
   };
 
@@ -89,6 +103,41 @@ export default function AlertManager() {
             />
             <Button type="submit">Add Keyword</Button>
           </form>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <h2 className="text-xl font-semibold text-gray-900">Recent Notifications</h2>
+        </CardHeader>
+        <CardContent>
+          {loading ? (
+            <div className="flex justify-center py-4">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+            </div>
+          ) : notifications.length === 0 ? (
+            <p className="text-gray-500 text-center py-4">No notifications yet.</p>
+          ) : (
+            <ul className="divide-y divide-gray-200">
+              {notifications.map((notif) => (
+                <li key={notif.id} className={`py-4 flex justify-between items-center ${notif.is_read ? 'opacity-50' : ''}`}>
+                  <div>
+                    <p className="text-sm text-gray-900">{notif.message}</p>
+                    <p className="text-xs text-gray-400">{new Date(notif.created_at).toLocaleString()}</p>
+                  </div>
+                  {!notif.is_read && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleMarkAsRead(notif.id)}
+                    >
+                      Mark as Read
+                    </Button>
+                  )}
+                </li>
+              ))}
+            </ul>
+          )}
         </CardContent>
       </Card>
 

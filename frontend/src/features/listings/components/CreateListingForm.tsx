@@ -6,10 +6,12 @@ import { listingService } from '@/services/listings';
 import Button from '@/components/ui/Button';
 import { Card, CardContent, CardHeader } from '@/components/ui/Card';
 import { useAuth } from '@/features/auth/context/AuthContext';
+import { useNotifications } from '@/features/notifications/context/NotificationContext';
 
 export default function CreateListingForm() {
   const router = useRouter();
   const { isAuthenticated, isLoading: authLoading } = useAuth();
+  const { addNotification } = useNotifications();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [type, setType] = useState('textbook');
@@ -60,6 +62,11 @@ export default function CreateListingForm() {
       }
 
       await listingService.create(payload);
+      
+      // #OBSERVER: Mocking the notification for the demo
+      // In a real app, this would come from a WebSocket or the backend
+      addNotification(`Your listing "${formData.title}" has been created!`);
+      
       router.push('/');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to create listing');

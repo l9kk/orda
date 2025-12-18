@@ -51,7 +51,9 @@ def create_listing(
                 sub.keyword.lower() in new_listing.title.lower()
                 or sub.keyword.lower() in (new_listing.description or "").lower()
             ):
-                observer = StudentObserver(sub.student_name)
+                observer = StudentObserver(
+                    user_id=sub.user_id, student_name=sub.student_name, db=db
+                )
                 notification_service.attach(observer)
 
         notification_service.notify(new_listing.title)
