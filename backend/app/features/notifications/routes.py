@@ -14,12 +14,11 @@ def create_subscription(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    # Use current_user.id instead of what's in the request if needed, 
-    # or just use current_user.username for the observer name
+    # Use current_user.id and email for the subscription
     db_subscription = models.Subscription(
         user_id=current_user.id,
         keyword=subscription.keyword,
-        student_name=current_user.username
+        student_name=current_user.email
     )
     db.add(db_subscription)
     db.commit()

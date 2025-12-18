@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from app.core.database import get_db
 from app.features.users.models import User
 from app.features.users.proxy import RealUserDetail, UserDetailProxy
-from app.core.auth import get_optional_current_user
+from app.core.auth import get_current_user, get_optional_current_user
 from pydantic import BaseModel
 from typing import Optional
 
