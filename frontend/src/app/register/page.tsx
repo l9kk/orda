@@ -26,8 +26,9 @@ export default function RegisterPage() {
         try {
             await userService.register(formData);
             router.push('/login?registered=true');
-        } catch (err: any) {
-            setError(err.message || 'Registration failed');
+        } catch (err) {
+            const message = err instanceof Error ? err.message : 'Registration failed';
+            setError(message);
         } finally {
             setIsLoading(false);
         }

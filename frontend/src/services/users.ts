@@ -37,7 +37,7 @@ export const userService = {
         return response.json();
     },
 
-    register: (userData: any): Promise<User> => {
+    register: (userData: Record<string, string>): Promise<User> => {
         return apiFetch<User>('/auth/register', {
             method: 'POST',
             body: JSON.stringify(userData),

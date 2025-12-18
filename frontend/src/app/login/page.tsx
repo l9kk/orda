@@ -20,8 +20,9 @@ export default function LoginPage() {
         try {
             const response = await userService.login(email, password);
             login(response.access_token, response.user);
-        } catch (err: any) {
-            setError(err.message || 'Invalid email or password');
+        } catch (err) {
+            const message = err instanceof Error ? err.message : 'Invalid email or password';
+            setError(message);
         } finally {
             setIsLoading(false);
         }
@@ -69,7 +70,7 @@ export default function LoginPage() {
                 </form>
 
                 <p className="mt-4 text-center text-sm text-gray-600">
-                    Don't have an account?{' '}
+                    Don&apos;t have an account?{' '}
                     <Link href="/register" className="text-blue-600 hover:underline">
                         Register here
                     </Link>

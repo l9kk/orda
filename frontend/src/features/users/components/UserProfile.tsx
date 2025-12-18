@@ -39,8 +39,8 @@ export default function UserProfile() {
           telegram: userData.telegram || '' 
         });
         setError(null);
-      } catch (err: any) {
-        setError(err.message || 'Failed to load profile');
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to load profile');
       } finally {
         setLoading(false);
       }
@@ -56,8 +56,8 @@ export default function UserProfile() {
       const updatedUser = await userService.updateProfile(user.id, editData);
       setUser(updatedUser);
       setIsEditing(false);
-    } catch (err: any) {
-      setError(err.message || 'Failed to update profile');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to update profile');
     }
   };
 
@@ -152,7 +152,7 @@ export default function UserProfile() {
         {listings.length === 0 ? (
           <Card>
             <CardContent className="text-center py-12">
-              <p className="text-gray-500">You haven't created any listings yet.</p>
+              <p className="text-gray-500">You haven&apos;t created any listings yet.</p>
               <Button className="mt-4" onClick={() => window.location.href = '/create'}>
                 Create Your First Listing
               </Button>

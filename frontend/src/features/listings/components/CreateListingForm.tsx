@@ -45,7 +45,7 @@ export default function CreateListingForm() {
     setError(null);
 
     try {
-      const payload: any = {
+      const payload: Record<string, string | number> = {
         title: formData.title,
         description: formData.description,
         price: parseFloat(formData.price),
@@ -65,8 +65,8 @@ export default function CreateListingForm() {
 
       await listingService.create(payload);
       router.push('/');
-    } catch (err: any) {
-      setError(err.message || 'Failed to create listing');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to create listing');
     } finally {
       setLoading(false);
     }
@@ -79,6 +79,9 @@ export default function CreateListingForm() {
       </div>
     );
   }
+
+  return (
+    <Card>
       <CardHeader>
         <h2 className="text-2xl font-bold text-gray-900">Create New Listing</h2>
       </CardHeader>

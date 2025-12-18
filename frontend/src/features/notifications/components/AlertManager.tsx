@@ -36,8 +36,8 @@ export default function AlertManager() {
       const data = await notificationService.getSubscriptions();
       setSubscriptions(data);
       setError(null);
-    } catch (err: any) {
-      setError(err.message || 'Failed to load subscriptions');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to load subscriptions');
     } finally {
       setLoading(false);
     }
@@ -51,8 +51,8 @@ export default function AlertManager() {
       await notificationService.addSubscription(keyword.trim());
       setKeyword('');
       fetchSubscriptions();
-    } catch (err: any) {
-      setError(err.message || 'Failed to add subscription');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to add subscription');
     }
   };
 
@@ -60,8 +60,8 @@ export default function AlertManager() {
     try {
       await notificationService.deleteSubscription(id);
       fetchSubscriptions();
-    } catch (err: any) {
-      setError(err.message || 'Failed to delete subscription');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to delete subscription');
     }
   };
 
@@ -108,7 +108,7 @@ export default function AlertManager() {
             <ul className="divide-y divide-gray-200">
               {subscriptions.map((sub) => (
                 <li key={sub.id} className="py-4 flex justify-between items-center">
-                  <span className="text-lg font-medium text-gray-900">"{sub.keyword}"</span>
+                  <span className="text-lg font-medium text-gray-900">&quot;{sub.keyword}&quot;</span>
                   <Button
                     variant="danger"
                     size="sm"
@@ -131,7 +131,7 @@ export default function AlertManager() {
           <p className="text-blue-800 text-sm">
             When you add a keyword, you are registered as an <strong>Observer</strong> in the backend. 
             Whenever a new listing is created, the <strong>NotificationService</strong> (Subject) 
-            checks all active subscriptions. If a match is found, it "notifies" the student.
+            checks all active subscriptions. If a match is found, it &quot;notifies&quot; the student.
             <br /><br />
             Check the backend terminal logs to see the Observer pattern in action when you create a listing that matches your keywords!
           </p>

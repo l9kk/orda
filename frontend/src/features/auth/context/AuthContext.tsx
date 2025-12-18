@@ -2,12 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
-
-interface User {
-    id: number;
-    username: string;
-    email: string;
-}
+import { User } from '@/services/users';
 
 interface AuthContextType {
     user: User | null;
@@ -26,9 +21,15 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
  * Ensures a single source of truth for user session data.
  */
 export function AuthProvider({ children }: { children: ReactNode }) {
-    const [user, setUser] = useState<User | null>(null);
-    const [token, setToken] = useState<string | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const [authState, setAuthState] = useState<{
+        user: User | null;
+        token: string | null;
+        isLoading: boolean;
+    }>({
+        user: null,
+        token: null,
+        isLoading: true,
+    });
     const router = useRouter();
 
     useEffect(() => {
@@ -36,30 +37,48 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const storedUser = localStorage.getItem('user');
 
         if (storedToken && storedUser) {
-            setToken(storedToken);
-            setUser(JSON.parse(storedUser));
+            // eslint-disable-next-line react-hooks/set-state-in-effect
+            setAuthState({
+                token: storedToken,
+                user: JSON.parse(storedUser),
+                isLoading: false,
+            });
+        } else {
+            setAuthState(prev => ({ ...prev, isLoading: false }));
         }
-        setIsLoading(false);
     }, []);
 
     const login = (newToken: string, newUser: User) => {
-        setToken(newToken);
-        setUser(newUser);
+        setAuthState({
+            token: newToken,
+            user: newUser,
+            isLoading: false,
+        });
         localStorage.setItem('token', newToken);
         localStorage.setItem('user', JSON.stringify(newUser));
         router.push('/');
     };
 
     const logout = () => {
-        setToken(null);
-        setUser(null);
+        setAuthState({
+            token: null,
+            user: null,
+            isLoading: false,
+        });
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         router.push('/login');
     };
 
     return (
-        <AuthContext.Provider value={{ user, token, login, logout, isAuthenticated: !!token, isLoading }}>
+        <AuthContext.Provider value={{ 
+            user: authState.user, 
+            token: authState.token, 
+            login, 
+            logout, 
+            isAuthenticated: !!authState.token, 
+            isLoading: authState.isLoading 
+        }}>
             {children}
         </AuthContext.Provider>
     );

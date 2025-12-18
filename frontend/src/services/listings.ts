@@ -22,7 +22,7 @@ export const listingService = {
         return apiFetch<Listing[]>(`/listings/${query}`);
     },
     getById: (id: number) => apiFetch<Listing>(`/listings/${id}`),
-    create: (data: any) =>
+    create: (data: Partial<Listing>) =>
         apiFetch<Listing>('/listings/', {
             method: 'POST',
             body: JSON.stringify(data),
