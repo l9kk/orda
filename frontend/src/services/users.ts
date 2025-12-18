@@ -1,19 +1,7 @@
 import { apiFetch } from './api';
-import { Listing } from './listings';
+import { User, AuthResponse, Listing } from '@/types';
 
-export interface User {
-    id: number;
-    email: string;
-    phone?: string;
-    telegram?: string;
-    contact_info?: string;
-}
-
-export interface AuthResponse {
-    access_token: string;
-    token_type: string;
-    user: User;
-}
+export type { User, AuthResponse, Listing };
 
 export const userService = {
     login: async (email: string, password: string): Promise<AuthResponse> => {

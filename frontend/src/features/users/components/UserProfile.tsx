@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { User, userService } from '@/services/users';
-import { Listing } from '@/services/listings';
+import { userService } from '@/services/users';
+import { User, Listing } from '@/types';
 import ListingCard from '@/features/listings/components/ListingCard';
 import { Card, CardContent, CardHeader } from '@/components/ui/Card';
 import Button from '@/components/ui/Button';

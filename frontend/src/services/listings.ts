@@ -1,20 +1,7 @@
 import { apiFetch } from './api';
+import { Listing } from '@/types';
 
-export interface Listing {
-    id: number;
-    title: string;
-    description: string;
-    price: number;
-    category: string;
-    location?: string;
-    course_code?: string;
-    isbn?: string;
-    item_type?: string;
-    origin?: string;
-    destination?: string;
-    contact_info?: string;
-    owner_id: number;
-}
+export type { Listing };
 
 export const listingService = {
     getAll: (sort?: string) => {

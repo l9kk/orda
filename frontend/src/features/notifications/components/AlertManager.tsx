@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Subscription, notificationService } from '@/services/notifications';
+import { notificationService } from '@/services/notifications';
+import { Subscription } from '@/types';
 import { Card, CardContent, CardHeader } from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
 import { useAuth } from '@/features/auth/context/AuthContext';

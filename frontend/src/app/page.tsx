@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Listing, listingService } from '@/services/listings';
+import { listingService } from '@/services/listings';
+import { Listing } from '@/types';
 import ListingCard from '@/features/listings/components/ListingCard';
 import Button from '@/components/ui/Button';
 

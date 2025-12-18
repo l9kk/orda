@@ -1,10 +1,7 @@
 import { apiFetch } from './api';
+import { Subscription } from '@/types';
 
-export interface Subscription {
-    id: number;
-    user_id: number;
-    keyword: string;
-}
+export type { Subscription };
 
 export const notificationService = {
     getSubscriptions: () =>

@@ -1,4 +1,4 @@
-import { Listing } from '@/services/listings';
+import { Listing } from '@/types';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
 import { useState } from 'react';
