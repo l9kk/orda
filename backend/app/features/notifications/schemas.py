@@ -2,7 +2,6 @@ from pydantic import BaseModel
 
 
 class SubscriptionBase(BaseModel):
-    student_name: str
     keyword: str
 
 
@@ -12,6 +11,8 @@ class SubscriptionCreate(SubscriptionBase):
 
 class SubscriptionResponse(SubscriptionBase):
     id: int
+    user_id: int
+    student_name: str
 
     class Config:
         from_attributes = True

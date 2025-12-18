@@ -1,4 +1,7 @@
+import logging
 from .models import BookListing, DormItemListing, RideSharingListing, Listing
+
+logger = logging.getLogger(__name__)
 
 
 class ListingFactory:
@@ -9,7 +12,7 @@ class ListingFactory:
 
     @staticmethod
     def create_listing(category: str, **kwargs) -> Listing:
-        print(f"DEBUG: Factory Method creating {category.capitalize()}Listing")
+        logger.info(f"FACTORY: Creating {category.capitalize()} Listing")
 
         # Base fields common to all listings
         base_fields = {"title", "description", "price", "location", "owner_id"}

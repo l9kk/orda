@@ -1,5 +1,8 @@
+import logging
 from abc import ABC, abstractmethod
 from typing import List
+
+logger = logging.getLogger(__name__)
 
 
 class Observer(ABC):
@@ -23,8 +26,8 @@ class StudentObserver(Observer):
         self.student_name = student_name
 
     def update(self, item_name: str):
-        print(
-            f"[Observer Alert] Student {self.student_name}: A new {item_name} is now available!"
+        logger.info(
+            f"OBSERVER: Alerting Student {self.student_name} about new item: {item_name}"
         )
 
 

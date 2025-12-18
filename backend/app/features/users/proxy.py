@@ -1,4 +1,7 @@
+import logging
 from abc import ABC, abstractmethod
+
+logger = logging.getLogger(__name__)
 
 
 class UserDetail(ABC):
@@ -51,8 +54,8 @@ class UserDetailProxy(UserDetail):
         self._target_user_id = target_user_id
 
     def get_contact_info(self) -> str:
-        print(
-            f"DEBUG: Proxy Pattern checking access for UserDetail (Current: {self._current_user_id}, Target: {self._target_user_id})"
+        logger.info(
+            f"PROXY: Checking access for UserDetail (Current: {self._current_user_id}, Target: {self._target_user_id})"
         )
         # Allow access if authenticated AND (is owner OR is admin - simplified)
         if self._current_user_id is not None:

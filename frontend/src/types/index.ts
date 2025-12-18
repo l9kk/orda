@@ -24,6 +24,7 @@ export interface Subscription {
     id: number;
     user_id: number;
     keyword: string;
+    student_name: string;
 }
 
 export interface AuthResponse {

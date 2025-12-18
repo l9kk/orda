@@ -1,6 +1,9 @@
+import logging
 from abc import ABC, abstractmethod
 from typing import List
 from .models import Listing
+
+logger = logging.getLogger(__name__)
 
 
 class SortStrategy(ABC):
@@ -21,7 +24,7 @@ class PriceSortStrategy(SortStrategy):
     """
 
     def sort(self, listings: List[Listing]) -> List[Listing]:
-        print("DEBUG: Strategy Pattern switched to PriceMode")
+        logger.info("STRATEGY: Sorting by Price")
         return sorted(listings, key=lambda x: x.price)
 
 
@@ -32,7 +35,7 @@ class DateSortStrategy(SortStrategy):
     """
 
     def sort(self, listings: List[Listing]) -> List[Listing]:
-        print("DEBUG: Strategy Pattern switched to DateMode")
+        logger.info("STRATEGY: Sorting by Date")
         return sorted(listings, key=lambda x: x.id, reverse=True)
 
 
@@ -43,7 +46,7 @@ class LocationSortStrategy(SortStrategy):
     """
 
     def sort(self, listings: List[Listing]) -> List[Listing]:
-        print("DEBUG: Strategy Pattern switched to LocationMode")
+        logger.info("STRATEGY: Sorting by Location")
         return sorted(listings, key=lambda x: x.location or "")
 
 
