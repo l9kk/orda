@@ -1,13 +1,15 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { listingService } from '@/services/listings';
 import Button from '@/components/ui/Button';
 import { Card, CardContent, CardHeader } from '@/components/ui/Card';
+import { useAuth } from '@/features/auth/context/AuthContext';
 
 export default function CreateListingForm() {
   const router = useRouter();
+  const { isAuthenticated, isLoading: authLoading } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [type, setType] = useState('book');
@@ -26,6 +28,12 @@ export default function CreateListingForm() {
     departure_time: '',
   });
 
+  useEffect(() => {
+    if (!authLoading && !isAuthenticated) {
+      router.push('/login');
+    }
+  }, [isAuthenticated, authLoading, router]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -42,7 +50,6 @@ export default function CreateListingForm() {
         description: formData.description,
         price: parseFloat(formData.price),
         listing_type: type,
-        owner_id: 1, // Simulated user ID
       };
 
       if (type === 'book') {
@@ -65,8 +72,13 @@ export default function CreateListingForm() {
     }
   };
 
-  return (
-    <Card className="max-w-2xl mx-auto">
+  if (authLoading) {
+    return (
+      <div className="flex justify-center py-12">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
       <CardHeader>
         <h2 className="text-2xl font-bold text-gray-900">Create New Listing</h2>
       </CardHeader>

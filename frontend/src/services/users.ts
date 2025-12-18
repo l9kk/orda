@@ -2,24 +2,53 @@ import { apiFetch } from './api';
 import { Listing } from './listings';
 
 export interface User {
-  id: number;
-  username: string;
-  email: string;
-  phone?: string;
-  telegram?: string;
+    id: number;
+    username: string;
+    email: string;
+    phone?: string;
+    telegram?: string;
+}
+
+export interface AuthResponse {
+    access_token: string;
+    token_type: string;
+    user: User;
 }
 
 export const userService = {
-  getProfile: (id: number, isAuthenticated: boolean = false) => {
-    const headers: Record<string, string> = {};
-    if (isAuthenticated) {
-      headers['X-Authenticated'] = 'true';
-    }
-    return apiFetch<User>(`/users/${id}`, { headers });
-  },
-  getUserListings: (userId: number) => {
-    // Assuming the backend supports filtering by owner_id
-    // If not, we'll fetch all and filter on frontend
-    return apiFetch<Listing[]>(`/listings/?owner_id=${userId}`);
-  },
+    login: async (username: string, password: string): Promise<AuthResponse> => {
+        const formData = new URLSearchParams();
+        formData.append('username', username);
+        formData.append('password', password);
+
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/auth/token`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: formData,
+        });
+
+        if (!response.ok) {
+            const error = await response.json().catch(() => ({ detail: 'Login failed' }));
+            throw new Error(error.detail || 'Login failed');
+        }
+
+        return response.json();
+    },
+
+    register: (userData: any): Promise<User> => {
+        return apiFetch<User>('/auth/register', {
+            method: 'POST',
+            body: JSON.stringify(userData),
+        });
+    },
+
+    getProfile: (id: number) => {
+        return apiFetch<User>(`/users/${id}`);
+    },
+
+    getUserListings: (userId: number) => {
+        return apiFetch<Listing[]>(`/listings/?owner_id=${userId}`);
+    },
 };

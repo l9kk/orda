@@ -6,23 +6,29 @@ import { Listing } from '@/services/listings';
 import ListingCard from '@/features/listings/components/ListingCard';
 import { Card, CardContent, CardHeader } from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
+import { useAuth } from '@/features/auth/context/AuthContext';
 
 export default function UserProfile() {
+  const { user: currentUser, isAuthenticated, isLoading: authLoading } = useAuth();
   const [user, setUser] = useState<User | null>(null);
   const [listings, setListings] = useState<Listing[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  const userId = 1; // Simulated user ID
 
   useEffect(() => {
+    if (authLoading) return;
+    if (!currentUser) {
+      setError('Please login to view your profile');
+      setLoading(false);
+      return;
+    }
+
     const fetchData = async () => {
       try {
         setLoading(true);
         const [userData, userListings] = await Promise.all([
-          userService.getProfile(userId, isAuthenticated),
-          userService.getUserListings(userId),
+          userService.getProfile(currentUser.id),
+          userService.getUserListings(currentUser.id),
         ]);
         setUser(userData);
         setListings(userListings);
@@ -35,9 +41,9 @@ export default function UserProfile() {
     };
 
     fetchData();
-  }, [isAuthenticated]);
+  }, [currentUser, authLoading]);
 
-  if (loading) {
+  if (loading || authLoading) {
     return (
       <div className="flex justify-center py-12">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
@@ -57,21 +63,6 @@ export default function UserProfile() {
     <div className="space-y-8">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold text-gray-900">My Profile</h1>
-        <div className="flex items-center space-x-2">
-          <span className="text-sm text-gray-500">Simulate Auth:</span>
-          <button
-            onClick={() => setIsAuthenticated(!isAuthenticated)}
-            className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
-              isAuthenticated ? 'bg-blue-600' : 'bg-gray-200'
-            }`}
-          >
-            <span
-              className={`inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-                isAuthenticated ? 'translate-x-5' : 'translate-x-0'
-              }`}
-            />
-          </button>
-        </div>
       </div>
 
       <Card>

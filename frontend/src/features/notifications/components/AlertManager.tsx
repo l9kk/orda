@@ -4,23 +4,31 @@ import { useEffect, useState } from 'react';
 import { Subscription, notificationService } from '@/services/notifications';
 import { Card, CardContent, CardHeader } from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
+import { useAuth } from '@/features/auth/context/AuthContext';
+import { useRouter } from 'next/navigation';
 
 export default function AlertManager() {
+  const { isAuthenticated, isLoading: authLoading } = useAuth();
+  const router = useRouter();
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
   const [keyword, setKeyword] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const userId = 1; // Simulated user ID
-
   useEffect(() => {
-    fetchSubscriptions();
-  }, []);
+    if (!authLoading && !isAuthenticated) {
+      router.push('/login');
+      return;
+    }
+    if (isAuthenticated) {
+      fetchSubscriptions();
+    }
+  }, [isAuthenticated, authLoading, router]);
 
   const fetchSubscriptions = async () => {
     try {
       setLoading(true);
-      const data = await notificationService.getSubscriptions(userId);
+      const data = await notificationService.getSubscriptions();
       setSubscriptions(data);
       setError(null);
     } catch (err: any) {
@@ -35,7 +43,7 @@ export default function AlertManager() {
     if (!keyword.trim()) return;
 
     try {
-      await notificationService.addSubscription(userId, keyword.trim());
+      await notificationService.addSubscription(keyword.trim());
       setKeyword('');
       fetchSubscriptions();
     } catch (err: any) {

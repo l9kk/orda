@@ -1,12 +1,15 @@
 import { Listing } from '@/services/listings';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
+import { useState } from 'react';
 
 interface ListingCardProps {
   listing: Listing;
 }
 
 export default function ListingCard({ listing }: ListingCardProps) {
+  const [showContact, setShowContact] = useState(false);
+
   return (
     <Card className="h-full flex flex-col">
       <CardHeader>
@@ -23,13 +26,24 @@ export default function ListingCard({ listing }: ListingCardProps) {
         <p className="text-sm text-gray-500 line-clamp-3 mb-4">
           {listing.description}
         </p>
-        <p className="text-2xl font-bold text-gray-900">
+        <p className="text-2xl font-bold text-gray-900 mb-4">
           ${listing.price.toLocaleString()}
         </p>
+        
+        {showContact ? (
+          <div className="bg-gray-50 p-3 rounded-md text-sm border border-gray-200">
+            <p className="font-medium text-gray-700">Contact Info:</p>
+            <p className="text-gray-600">{listing.contact_info}</p>
+          </div>
+        ) : null}
       </CardContent>
       <CardFooter>
-        <Button variant="outline" className="w-full">
-          View Details
+        <Button 
+          variant={showContact ? "outline" : "primary"} 
+          className="w-full"
+          onClick={() => setShowContact(!showContact)}
+        >
+          {showContact ? "Hide Contact" : "Contact Seller"}
         </Button>
       </CardFooter>
     </Card>
