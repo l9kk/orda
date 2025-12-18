@@ -77,6 +77,8 @@ This project implements several design patterns to ensure high maintainability a
   - _Analogy_: Like an **Air Traffic Controller**. Pilots (Components) don't talk to each other directly; they talk to the tower (Mediator) to avoid crashing.
 - **Template Pattern**: Used in the base `Listing` model.
   - _Analogy_: Like a **Cake Recipe**. The recipe says "Mix, Bake, Decorate". You follow the steps but choose the specific flavor (Chocolate vs. Vanilla).
+- **Iterator Pattern**: Used in database session management (`yield db`).
+  - _Analogy_: Like a **Deck of Cards**. You deal them one by one. You don't need to hold all 52 cards at once to see the next one.
 
 ## Architectural things
 
