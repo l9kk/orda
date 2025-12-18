@@ -26,13 +26,15 @@ class UserDetailProxy(UserDetail):
     #PROXY
     Proxy object that controls access to RealUserDetail.
     """
-    def __init__(self, real_user_detail: RealUserDetail, is_authenticated: bool):
+    def __init__(self, real_user_detail: RealUserDetail, current_user_id: int | None, target_user_id: int):
         self._real_user_detail = real_user_detail
-        self._is_authenticated = is_authenticated
+        self._current_user_id = current_user_id
+        self._target_user_id = target_user_id
 
     def get_contact_info(self) -> str:
-        print("DEBUG: Proxy Pattern checking access for UserDetail")
-        if self._is_authenticated:
+        print(f"DEBUG: Proxy Pattern checking access for UserDetail (Current: {self._current_user_id}, Target: {self._target_user_id})")
+        # Allow access if authenticated AND (is owner OR is admin - simplified)
+        if self._current_user_id is not None:
             return self._real_user_detail.get_contact_info()
         else:
             return "[HIDDEN] - Please login to view contact info"

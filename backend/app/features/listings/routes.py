@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Query, Header
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 from typing import List, Optional
 from app.core.database import get_db
@@ -8,17 +8,26 @@ from .strategies import SortContext, PriceSortStrategy, DateSortStrategy
 from app.features.notifications.models import Subscription
 from app.features.notifications.observer import NotificationService, StudentObserver
 from app.features.users.proxy import UserDetailProxy, RealUserDetail
+from app.core.auth import get_current_user, get_optional_current_user
+from app.features.users.models import User
 
 router = APIRouter(prefix="/listings", tags=["listings"])
 
 @router.post("/", response_model=schemas.ListingResponse)
-def create_listing(listing: schemas.ListingCreate, db: Session = Depends(get_db)):
+def create_listing(
+    listing: schemas.ListingCreate, 
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
     try:
         # Use the Factory to create the listing object
         # #FACTORY
+        listing_data = listing.model_dump(exclude={"category"})
+        listing_data["owner_id"] = current_user.id
+        
         new_listing = ListingFactory.create_listing(
             category=listing.category,
-            **listing.model_dump(exclude={"category"})
+            **listing_data
         )
         
         db.add(new_listing)
@@ -44,10 +53,15 @@ def create_listing(listing: schemas.ListingCreate, db: Session = Depends(get_db)
 @router.get("/", response_model=List[schemas.ListingResponse])
 def get_listings(
     sort_by: Optional[str] = Query(None, enum=["price", "date"]),
-    is_authenticated: bool = Header(False, alias="X-Authenticated"),
-    db: Session = Depends(get_db)
+    owner_id: Optional[int] = Query(None),
+    db: Session = Depends(get_db),
+    current_user: Optional[User] = Depends(get_optional_current_user)
 ):
-    listings = db.query(models.Listing).all()
+    query = db.query(models.Listing)
+    if owner_id:
+        query = query.filter(models.Listing.owner_id == owner_id)
+    
+    listings = query.all()
     
     if sort_by:
         # #STRATEGY
@@ -63,10 +77,18 @@ def get_listings(
     
     # #PROXY
     # Apply proxy for contact info
-    # For simulation, we'll use dummy contact info
     for listing in listings:
-        real_detail = RealUserDetail(phone="+77001234567", telegram="@sdu_student")
-        proxy = UserDetailProxy(real_detail, is_authenticated)
-        listing.contact_info = proxy.get_contact_info()
+        # Fetch owner details for the proxy
+        owner = db.query(User).filter(User.id == listing.owner_id).first()
+        if owner:
+            real_detail = RealUserDetail(phone=owner.phone or "N/A", telegram=owner.telegram or "N/A")
+            proxy = UserDetailProxy(
+                real_user_detail=real_detail,
+                current_user_id=current_user.id if current_user else None,
+                target_user_id=owner.id
+            )
+            listing.contact_info = proxy.get_contact_info()
+        else:
+            listing.contact_info = "[UNKNOWN OWNER]"
         
     return listings
