@@ -15,16 +15,16 @@ services:
     environment:
       DATABASE_URL: postgresql://orda_user:orda_password@db:5432/orda_db
     ports:
-      - "8000:8000"
+      - "8001:8001"
     depends_on:
       - db
 
   frontend:
     build: ./frontend
     ports:
-      - "3000:3000"
+      - "3001:3001"
     environment:
-      NEXT_PUBLIC_API_URL: http://localhost:8000
+      NEXT_PUBLIC_API_URL: http://localhost:8001
     depends_on:
       - backend
 
