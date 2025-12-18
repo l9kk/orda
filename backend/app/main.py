@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.database import engine, Base
+from app.core.config import settings
 from app.features.listings.routes import router as listings_router
 from app.features.notifications.routes import router as subscriptions_router
 from app.features.users.routes import router as users_router
@@ -9,7 +10,7 @@ from app.features.auth.routes import router as auth_router
 # Create database tables
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI(title="Orda API")
+app = FastAPI(title=settings.PROJECT_NAME)
 
 # Add CORS middleware
 app.add_middleware(

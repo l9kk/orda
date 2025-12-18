@@ -5,8 +5,8 @@ from app.core.auth import (
     get_password_hash,
     verify_password,
     create_access_token,
-    ACCESS_TOKEN_EXPIRE_MINUTES,
 )
+from app.core.config import settings
 from app.features.users.models import User
 from app.features.users.service import UserService
 from .schemas import UserCreate
@@ -34,7 +34,7 @@ class AuthService:
 
     @staticmethod
     def create_user_token(user: User):
-        access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+        access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
         access_token = create_access_token(
             data={"sub": user.email}, expires_delta=access_token_expires
         )

@@ -12,6 +12,7 @@ class UserRead(UserBase):
     id: int
     phone: Optional[str] = None
     telegram: Optional[str] = None
+    contact_info: Optional[str] = None
 
     class Config:
         from_attributes = True
