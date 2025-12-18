@@ -53,7 +53,7 @@ def get_user(
     )
 
 
-@router.put("/{user_id}", response_model=UserRead)
+@router.patch("/{user_id}", response_model=UserRead)
 def update_user(
     user_id: int,
     user_update: UserUpdate,

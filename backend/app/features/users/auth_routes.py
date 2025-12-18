@@ -11,8 +11,19 @@ from app.core.auth import (
 from app.features.users.models import User
 from pydantic import BaseModel, EmailStr, Field
 from datetime import timedelta
+from typing import Optional
 
 router = APIRouter(prefix="/auth", tags=["auth"])
+
+
+class UserRead(BaseModel):
+    id: int
+    email: EmailStr
+    phone: Optional[str] = None
+    telegram: Optional[str] = None
+
+    class Config:
+        from_attributes = True
 
 
 class UserCreate(BaseModel):
@@ -23,6 +34,7 @@ class UserCreate(BaseModel):
 class Token(BaseModel):
     access_token: str
     token_type: str
+    user: UserRead
 
 
 @router.post("/register", response_model=Token)
@@ -42,7 +54,11 @@ def register(user_in: UserCreate, db: Session = Depends(get_db)):
     access_token = create_access_token(
         data={"sub": new_user.email}, expires_delta=access_token_expires
     )
-    return {"access_token": access_token, "token_type": "bearer"}
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
+        "user": new_user,
+    }
 
 
 @router.post("/token", response_model=Token)
@@ -62,4 +78,8 @@ def login(
     access_token = create_access_token(
         data={"sub": user.email}, expires_delta=access_token_expires
     )
-    return {"access_token": access_token, "token_type": "bearer"}
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
+        "user": user,
+    }

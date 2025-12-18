@@ -11,9 +11,6 @@ class ListingBase(BaseModel):
 
 
 class ListingCreate(ListingBase):
-    # Fields for BookListing
-    course_code: Optional[str] = None
-    isbn: Optional[str] = None
     # Fields for DormItemListing
     item_type: Optional[str] = None
     # Fields for RideSharingListing
@@ -23,8 +20,7 @@ class ListingCreate(ListingBase):
 
 class ListingResponse(ListingBase):
     id: int
-    course_code: Optional[str] = None
-    isbn: Optional[str] = None
+    owner_id: int
     item_type: Optional[str] = None
     origin: Optional[str] = None
     destination: Optional[str] = None

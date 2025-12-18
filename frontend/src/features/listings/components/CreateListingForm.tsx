@@ -18,9 +18,6 @@ export default function CreateListingForm() {
     description: '',
     price: '',
     location: '',
-    // Book fields
-    course_code: '',
-    isbn: '',
     // Dorm item fields
     item_type: 'Electronics',
     // Ride sharing fields
@@ -54,8 +51,7 @@ export default function CreateListingForm() {
       };
 
       if (type === 'textbook') {
-        payload.course_code = formData.course_code;
-        payload.isbn = formData.isbn;
+        // No extra fields for textbooks
       } else if (type === 'dorm') {
         payload.item_type = formData.item_type;
       } else if (type === 'ride') {
@@ -162,31 +158,6 @@ export default function CreateListingForm() {
             </div>
 
             {/* Dynamic Fields */}
-            {type === 'textbook' && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Course Code</label>
-                  <input
-                    type="text"
-                    name="course_code"
-                    placeholder="e.g. CSS 202"
-                    value={formData.course_code}
-                    onChange={handleChange}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 bg-white text-gray-900"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">ISBN</label>
-                  <input
-                    type="text"
-                    name="isbn"
-                    value={formData.isbn}
-                    onChange={handleChange}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 bg-white text-gray-900"
-                  />
-                </div>
-              </div>
-            )}
 
             {type === 'dorm' && (
               <div>

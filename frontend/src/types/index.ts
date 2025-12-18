@@ -13,8 +13,6 @@ export interface Listing {
     price: number;
     category: string;
     location?: string;
-    course_code?: string;
-    isbn?: string;
     item_type?: string;
     origin?: string;
     destination?: string;

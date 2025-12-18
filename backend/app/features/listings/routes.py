@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, Query
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from typing import List, Optional
 from app.core.database import get_db
 from . import schemas, models
@@ -69,7 +69,7 @@ def get_listings(
     db: Session = Depends(get_db),
     current_user: Optional[User] = Depends(get_optional_current_user),
 ):
-    query = db.query(models.Listing)
+    query = db.query(models.Listing).options(joinedload(models.Listing.owner))
     if owner_id:
         query = query.filter(models.Listing.owner_id == owner_id)
 
@@ -92,8 +92,8 @@ def get_listings(
     # PROXY
     # Apply proxy for contact info
     for listing in listings:
-        # Fetch owner details for the proxy
-        owner = db.query(User).filter(User.id == listing.owner_id).first()
+        # Use the joined owner relationship
+        owner = listing.owner
         if owner:
             real_detail = RealUserDetail(
                 email=owner.email, phone=owner.phone, telegram=owner.telegram

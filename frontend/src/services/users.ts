@@ -25,8 +25,8 @@ export const userService = {
         return response.json();
     },
 
-    register: (userData: Record<string, string>): Promise<User> => {
-        return apiFetch<User>('/auth/register', {
+    register: (userData: Record<string, string>): Promise<AuthResponse> => {
+        return apiFetch<AuthResponse>('/auth/register', {
             method: 'POST',
             body: JSON.stringify(userData),
         });
@@ -42,7 +42,7 @@ export const userService = {
 
     updateProfile: (id: number, data: { phone?: string; telegram?: string }) => {
         return apiFetch<User>(`/users/${id}`, {
-            method: 'PUT',
+            method: 'PATCH',
             body: JSON.stringify(data),
         });
     },

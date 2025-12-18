@@ -8,7 +8,13 @@ export async function apiFetch<T>(
     endpoint: string,
     options: RequestInit = {}
 ): Promise<T> {
-    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+    let token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+
+    if (token === '"null"' || token === 'null' || token === '"undefined"' || token === 'undefined') {
+        token = null;
+    } else if (token && token.startsWith('"') && token.endsWith('"')) {
+        token = token.slice(1, -1);
+    }
 
     const headers: Record<string, string> = {
         'Content-Type': 'application/json',

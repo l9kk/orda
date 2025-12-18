@@ -1,5 +1,5 @@
-from sqlalchemy import String, Float
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy import String, Float, ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.core.database import Base
 from typing import Optional
 
@@ -19,6 +19,9 @@ class Listing(Base):
     price: Mapped[float] = mapped_column(Float, nullable=False)
     category: Mapped[str] = mapped_column(String, nullable=False)
     location: Mapped[Optional[str]] = mapped_column(String)
+    owner_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
+
+    owner = relationship("app.features.users.models.User")
 
     __mapper_args__ = {
         "polymorphic_identity": "listing",
@@ -27,9 +30,6 @@ class Listing(Base):
 
 
 class BookListing(Listing):
-    course_code: Mapped[Optional[str]] = mapped_column(String)
-    isbn: Mapped[Optional[str]] = mapped_column(String)
-
     __mapper_args__ = {
         "polymorphic_identity": "textbook",
     }
