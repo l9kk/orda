@@ -14,12 +14,18 @@ class RealUserDetail(UserDetail):
     #PROXY
     Real object containing sensitive information.
     """
-    def __init__(self, phone: str, telegram: str):
+    def __init__(self, email: str, phone: str | None = None, telegram: str | None = None):
+        self._email = email
         self._phone = phone
         self._telegram = telegram
 
     def get_contact_info(self) -> str:
-        return f"Phone: {self._phone}, Telegram: {self._telegram}"
+        info = f"Email: {self._email}"
+        if self._phone:
+            info += f", Phone: {self._phone}"
+        if self._telegram:
+            info += f", Telegram: {self._telegram}"
+        return info
 
 class UserDetailProxy(UserDetail):
     """

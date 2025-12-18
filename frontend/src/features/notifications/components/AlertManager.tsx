@@ -78,7 +78,7 @@ export default function AlertManager() {
               placeholder="e.g. iPhone, Calculus, Dorm"
               value={keyword}
               onChange={(e) => setKeyword(e.target.value)}
-              className="flex-grow border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              className="flex-grow border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 text-gray-900 bg-white"
               required
             />
             <Button type="submit">Add Keyword</Button>

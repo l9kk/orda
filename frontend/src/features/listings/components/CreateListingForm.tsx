@@ -97,11 +97,11 @@ export default function CreateListingForm() {
                 name="type"
                 value={type}
                 onChange={(e) => setType(e.target.value)}
-                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md bg-white text-gray-900"
               >
-                <option value="book">Book</option>
-                <option value="dorm_item">Dorm Item</option>
-                <option value="ride_sharing">Ride Sharing</option>
+                <option value="book" className="text-gray-900">Book</option>
+                <option value="dorm_item" className="text-gray-900">Dorm Item</option>
+                <option value="ride_sharing" className="text-gray-900">Ride Sharing</option>
               </select>
             </div>
 
@@ -113,7 +113,7 @@ export default function CreateListingForm() {
                 required
                 value={formData.title}
                 onChange={handleChange}
-                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 bg-white text-gray-900"
               />
             </div>
 
@@ -125,7 +125,7 @@ export default function CreateListingForm() {
                 required
                 value={formData.description}
                 onChange={handleChange}
-                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 bg-white text-gray-900"
               />
             </div>
 
@@ -139,7 +139,7 @@ export default function CreateListingForm() {
                 step="0.01"
                 value={formData.price}
                 onChange={handleChange}
-                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 bg-white text-gray-900"
               />
             </div>
 
@@ -154,7 +154,7 @@ export default function CreateListingForm() {
                     required
                     value={formData.author}
                     onChange={handleChange}
-                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 bg-white text-gray-900"
                   />
                 </div>
                 <div>
@@ -165,7 +165,7 @@ export default function CreateListingForm() {
                     required
                     value={formData.isbn}
                     onChange={handleChange}
-                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 bg-white text-gray-900"
                   />
                 </div>
               </>
@@ -179,11 +179,11 @@ export default function CreateListingForm() {
                     name="condition"
                     value={formData.condition}
                     onChange={handleChange}
-                    className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+                    className="mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md bg-white text-gray-900"
                   >
-                    <option value="New">New</option>
-                    <option value="Like New">Like New</option>
-                    <option value="Used">Used</option>
+                    <option value="New" className="text-gray-900">New</option>
+                    <option value="Like New" className="text-gray-900">Like New</option>
+                    <option value="Used" className="text-gray-900">Used</option>
                   </select>
                 </div>
                 <div>
@@ -194,7 +194,7 @@ export default function CreateListingForm() {
                     required
                     value={formData.location}
                     onChange={handleChange}
-                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 bg-white text-gray-900"
                   />
                 </div>
               </>
@@ -210,7 +210,7 @@ export default function CreateListingForm() {
                     required
                     value={formData.destination}
                     onChange={handleChange}
-                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 bg-white text-gray-900"
                   />
                 </div>
                 <div>
@@ -221,7 +221,7 @@ export default function CreateListingForm() {
                     required
                     value={formData.departure_time}
                     onChange={handleChange}
-                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 bg-white text-gray-900"
                   />
                 </div>
               </>

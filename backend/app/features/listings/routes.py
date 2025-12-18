@@ -81,7 +81,11 @@ def get_listings(
         # Fetch owner details for the proxy
         owner = db.query(User).filter(User.id == listing.owner_id).first()
         if owner:
-            real_detail = RealUserDetail(phone=owner.phone or "N/A", telegram=owner.telegram or "N/A")
+            real_detail = RealUserDetail(
+                email=owner.email,
+                phone=owner.phone,
+                telegram=owner.telegram
+            )
             proxy = UserDetailProxy(
                 real_user_detail=real_detail,
                 current_user_id=current_user.id if current_user else None,

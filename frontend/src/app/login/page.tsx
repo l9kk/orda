@@ -6,7 +6,7 @@ import { userService } from '@/services/users';
 import Link from 'next/link';
 
 export default function LoginPage() {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -18,10 +18,10 @@ export default function LoginPage() {
         setIsLoading(true);
 
         try {
-            const response = await userService.login(username, password);
+            const response = await userService.login(email, password);
             login(response.access_token, response.user);
         } catch (err: any) {
-            setError(err.message || 'Invalid username or password');
+            setError(err.message || 'Invalid email or password');
         } finally {
             setIsLoading(false);
         }
@@ -40,12 +40,12 @@ export default function LoginPage() {
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
-                        <label className="block text-sm font-medium text-gray-700">Username</label>
+                        <label className="block text-sm font-medium text-gray-700">Email</label>
                         <input
-                            type="text"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-gray-900 bg-white"
                             required
                         />
                     </div>
@@ -55,7 +55,7 @@ export default function LoginPage() {
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-gray-900 bg-white"
                             required
                         />
                     </div>

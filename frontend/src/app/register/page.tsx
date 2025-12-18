@@ -7,11 +7,8 @@ import Link from 'next/link';
 
 export default function RegisterPage() {
     const [formData, setFormData] = useState({
-        username: '',
         email: '',
         password: '',
-        phone: '',
-        telegram: '',
     });
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -49,24 +46,13 @@ export default function RegisterPage() {
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
-                        <label className="block text-sm font-medium text-gray-700">Username</label>
-                        <input
-                            type="text"
-                            name="username"
-                            value={formData.username}
-                            onChange={handleChange}
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
-                            required
-                        />
-                    </div>
-                    <div>
                         <label className="block text-sm font-medium text-gray-700">Email</label>
                         <input
                             type="email"
                             name="email"
                             value={formData.email}
                             onChange={handleChange}
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-gray-900 bg-white"
                             required
                         />
                     </div>
@@ -77,28 +63,8 @@ export default function RegisterPage() {
                             name="password"
                             value={formData.password}
                             onChange={handleChange}
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-gray-900 bg-white"
                             required
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">Phone (Optional)</label>
-                        <input
-                            type="text"
-                            name="phone"
-                            value={formData.phone}
-                            onChange={handleChange}
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">Telegram (Optional)</label>
-                        <input
-                            type="text"
-                            name="telegram"
-                            value={formData.telegram}
-                            onChange={handleChange}
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
                         />
                     </div>
                     <button

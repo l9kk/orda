@@ -3,10 +3,10 @@ import { Listing } from './listings';
 
 export interface User {
     id: number;
-    username: string;
     email: string;
     phone?: string;
     telegram?: string;
+    contact_info?: string;
 }
 
 export interface AuthResponse {
@@ -16,9 +16,9 @@ export interface AuthResponse {
 }
 
 export const userService = {
-    login: async (username: string, password: string): Promise<AuthResponse> => {
+    login: async (email: string, password: string): Promise<AuthResponse> => {
         const formData = new URLSearchParams();
-        formData.append('username', username);
+        formData.append('username', email); // OAuth2 expects 'username' field
         formData.append('password', password);
 
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/auth/token`, {
@@ -50,5 +50,12 @@ export const userService = {
 
     getUserListings: (userId: number) => {
         return apiFetch<Listing[]>(`/listings/?owner_id=${userId}`);
+    },
+
+    updateProfile: (id: number, data: { phone?: string; telegram?: string }) => {
+        return apiFetch<User>(`/users/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify(data),
+        });
     },
 };
