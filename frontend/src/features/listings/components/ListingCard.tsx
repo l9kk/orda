@@ -35,6 +35,7 @@ export default function ListingCard({ listing }: ListingCardProps) {
           ${listing.price.toLocaleString()}
         </p>
         
+        {/* #PROXY: Displays contact info which is protected by the backend proxy */}
         {showContact ? (
           <div className="bg-gray-50 p-3 rounded-md text-sm border border-gray-200">
             <p className="font-medium text-gray-700">Contact Info:</p>

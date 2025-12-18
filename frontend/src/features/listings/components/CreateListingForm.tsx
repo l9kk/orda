@@ -93,6 +93,7 @@ export default function CreateListingForm() {
           <div className="grid grid-cols-1 gap-6">
             <div>
               <label className="block text-sm font-medium text-gray-700">Listing Type</label>
+              {/* #FACTORY: Dynamic form fields based on the selected listing category */}
               <select
                 name="type"
                 value={type}

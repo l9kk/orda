@@ -8,6 +8,11 @@ import { useAuth } from '@/features/auth/context/AuthContext';
 import { useRouter } from 'next/navigation';
 
 export default function AlertManager() {
+  /**
+   * #OBSERVER
+   * Frontend interface for managing keyword subscriptions.
+   * Users "attach" themselves to keywords to receive notifications.
+   */
   const { isAuthenticated, isLoading: authLoading } = useAuth();
   const router = useRouter();
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);

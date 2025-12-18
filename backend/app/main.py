@@ -14,7 +14,7 @@ app = FastAPI(title="Orda API")
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # In production, specify the frontend URL
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -24,6 +24,7 @@ app.include_router(auth_router)
 app.include_router(listings_router)
 app.include_router(subscriptions_router)
 app.include_router(users_router)
+
 
 @app.get("/")
 async def root():

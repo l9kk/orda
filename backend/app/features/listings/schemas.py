@@ -1,12 +1,14 @@
 from pydantic import BaseModel
 from typing import Optional
 
+
 class ListingBase(BaseModel):
     title: str
     description: Optional[str] = None
     price: float
     category: str
     location: Optional[str] = None
+
 
 class ListingCreate(ListingBase):
     # Fields for BookListing
@@ -17,6 +19,7 @@ class ListingCreate(ListingBase):
     # Fields for RideSharingListing
     origin: Optional[str] = None
     destination: Optional[str] = None
+
 
 class ListingResponse(ListingBase):
     id: int

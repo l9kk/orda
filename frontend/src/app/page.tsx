@@ -38,6 +38,7 @@ export default function Home() {
         </div>
         <div className="flex items-center gap-2">
           <span className="text-sm text-gray-500">Sort by:</span>
+          {/* #STRATEGY: Triggers different sorting algorithms on the backend */}
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
