@@ -49,7 +49,7 @@ Smart Orda is a simulated marketplace application designed for the SDU (Suleyman
 
 ## Design Patterns
 
-This project implements several design patterns to ensure high maintainability and clarity. Each pattern is marked in the code with a comment like `#FACTORY`.
+This project implements several design patterns to ensure high maintainability and clarity.
 
 ### Creational Patterns
 
